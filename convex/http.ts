@@ -1,6 +1,7 @@
 import { httpRouter } from "convex/server";
 import { httpAction } from "./_generated/server"
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { Webhook } from "svix";
 
 const http = httpRouter();
 
@@ -28,5 +29,16 @@ http.route({
 
         const wh = new Webhook(webhookSecret);
         let evt: WebhookEvent;
+
+        try{
+            evt = wh.verify(body, {
+                "svix-id": svix_id,
+                "svix-timestamp": svix_timestamp,
+                "svix-signature": svix_signature,
+            }) as WebhookEvent;
+        } catch(err){
+            console.error("Error verifying webhook:", err);
+            return new Response("Error occurred", {status: 400});
+        }
     })
 })
