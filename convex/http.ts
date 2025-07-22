@@ -47,6 +47,13 @@ http.route({
 
             const email = email_addresses[0].email_address;
             const name = `${first_name || ""} ${last_name || ""}`.trim();
+
+            try {
+                // save user to db
+            } catch (error) {
+                return new Response("error creating user", {status: 500});
+            }
         }
+        return new Response("Webhook processed successfully", {status: 200});
     })
 })
