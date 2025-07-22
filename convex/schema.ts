@@ -19,6 +19,15 @@ export default defineSchema({
         code: v.string(),
         output: v.optional(v.string()),
         error: v.optional(v.string()),
-    })
+    }).index("by_user_id", ["userId"]),
+
+    snippets: defineTable({
+        userId: v.string(),
+        title: v.string(),
+        language: v.string(),
+        code: v.string(),
+        userName: v.string(),
+
+    }).index("by_user_id", ["userId"]),
 
 });
