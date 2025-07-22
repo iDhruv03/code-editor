@@ -50,10 +50,13 @@ http.route({
 
             try {
                 // save user to db
+                
             } catch (error) {
                 return new Response("error creating user", {status: 500});
             }
         }
         return new Response("Webhook processed successfully", {status: 200});
     })
-})
+});
+
+export default http;
