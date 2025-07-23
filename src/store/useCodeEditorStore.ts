@@ -41,7 +41,11 @@ export const useCodeEditorStore = create<CodeEditorState>((set,get) => {
 
                 set({editor});
                  
-            }
+            },
+            setTheme: (theme: string) => {
+            localStorage.setItem("editor-theme", theme);
+            set({ theme });
+             },
 
     }
 })
