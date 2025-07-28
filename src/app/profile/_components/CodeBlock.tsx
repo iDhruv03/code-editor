@@ -1,9 +1,9 @@
 "use client";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-// @ts-ignore
+//@ts-expect-error
 import SyntaxHighlighter from "react-syntax-highlighter";
-// @ts-ignore
+//@ts-expect-error
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface CodeBlockProps {
