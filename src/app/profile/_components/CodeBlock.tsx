@@ -1,9 +1,9 @@
 "use client";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-//@ts-expect-error
+// @ts-expect-error: Type mismatch with third-party lib
 import SyntaxHighlighter from "react-syntax-highlighter";
-//@ts-expect-error
+// @ts-expect-error: Type mismatch with third-party lib
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface CodeBlockProps {

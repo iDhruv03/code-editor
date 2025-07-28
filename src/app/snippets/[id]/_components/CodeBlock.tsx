@@ -1,7 +1,7 @@
-//@ts-expect-error
+// @ts-expect-error: Type mismatch with third-party lib
 
 import SyntaxHighlighter from "react-syntax-highlighter";
-//@ts-expect-error
+// @ts-expect-error: Type mismatch with third-party lib
 
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CopyButton from "./CopyButton";
