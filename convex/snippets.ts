@@ -20,7 +20,8 @@ export const createSnippet = mutation({
     if (!user) throw new Error("User not found");
 
     const snippetId = await ctx.db.insert("snippets", {
-      userId: identity.subject,
+      // userId: identity.subject,
+      userId: user._id,
       userName: user.name,
       title: args.title,
       language: args.language,
@@ -71,6 +72,39 @@ export const deleteSnippet = mutation({
   },
 });
 
+// export const starSnippet = mutation({
+//   args: {
+//     snippetId: v.id("snippets"),
+//   },
+//   handler: async (ctx, args) => {
+//     const identity = await ctx.auth.getUserIdentity();
+//     if (!identity) throw new Error("Not authenticated");
+
+//     const existing = await ctx.db
+//       .query("stars")
+//       .withIndex("by_user_id_and_snippet_id")
+//       .filter(
+//         (q) =>
+//           q.eq(q.field("userId"), identity.subject) && q.eq(q.field("snippetId"), args.snippetId)
+//       )
+//       .first();
+
+//     if (existing) {
+//       await ctx.db.delete(existing._id);
+//     } else {
+//       await ctx.db.insert("stars", {
+//         userId: identity.subject,
+        
+//         snippetId: args.snippetId,
+//       });
+//     }
+//   },
+// });
+
+
+
+
+
 export const starSnippet = mutation({
   args: {
     snippetId: v.id("snippets"),
@@ -79,12 +113,22 @@ export const starSnippet = mutation({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not authenticated");
 
+    // 🔍 Find user by identity.subject
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id")
+      .filter((q) => q.eq(q.field("userId"), identity.subject))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
     const existing = await ctx.db
       .query("stars")
       .withIndex("by_user_id_and_snippet_id")
       .filter(
         (q) =>
-          q.eq(q.field("userId"), identity.subject) && q.eq(q.field("snippetId"), args.snippetId)
+          q.eq(q.field("userId"), user._id) &&
+          q.eq(q.field("snippetId"), args.snippetId)
       )
       .first();
 
@@ -92,12 +136,13 @@ export const starSnippet = mutation({
       await ctx.db.delete(existing._id);
     } else {
       await ctx.db.insert("stars", {
-        userId: identity.subject,
+        userId: user._id, // ✅ Use Convex ID here
         snippetId: args.snippetId,
       });
     }
   },
 });
+
 
 export const addComment = mutation({
   args: {
@@ -118,7 +163,8 @@ export const addComment = mutation({
 
     return await ctx.db.insert("snippetComments", {
       snippetId: args.snippetId,
-      userId: identity.subject,
+      // userId: identity.subject,
+      userId: user._id,
       userName: user.name,
       content: args.content,
     });
