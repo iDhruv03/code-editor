@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { THEMES } from "../_constants";
 import {AnimatePresence, motion} from "framer-motion";
 import { CircleOff, Cloud, Github, Laptop, Moon, Palette, Sun } from "lucide-react";
-import useMounted from "@/hooks/useMounted";
 
 
 const THEME_ICONS: Record<string, React.ReactNode> = {
